@@ -13,7 +13,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    cursor: none; /* Masaüstü için varsayılan imleci gizle */
+    cursor: none; 
 }
 
 body {
@@ -75,7 +75,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #ffffff; /* Arka plan tamamen beyaz oldu */
+    background-color: #ffffff; 
     z-index: 10000;
     display: flex;
     flex-direction: column;
@@ -172,17 +172,17 @@ body {
 
 .hero h1 {
     font-family: var(--font-serif);
-    font-size: 16vw; /* 12vw'den 16vw'ye çıkarılarak devasa ve şık bir hale getirildi */
+    font-size: 16vw; 
     font-weight: 400;
-    line-height: 0.9; /* Yazının altındaki boşluk daraltıldı */
+    line-height: 0.9; 
     margin-bottom: 20px;
-    mix-blend-mode: difference; /* Arka plandaki parçacıkların yazının içinden geçmesini sağlar */
+    mix-blend-mode: difference;
 }
 
-/* Mobilde Daha da Vurgulu Olması İçin (CSS'in en altındaki 768px içerisine de eklenebilir) */
+
 @media (max-width: 768px) {
     .hero h1 {
-        font-size: 22vw; /* Telefon ekranlarında markayı tam genişliğe oturtur */
+        font-size: 22vw;
     }
 }
 
@@ -225,12 +225,12 @@ body {
    ========================================= */
 
    .about.section-padding {
-    padding: 8vh 0 !important; /* Masaüstünde 15vh'den 8vh'ye düşürerek daralttık */
+    padding: 8vh 0 !important; 
 }
 
 @media (max-width: 768px) {
     .about.section-padding {
-        padding: 5vh 0 !important; /* Mobilde çok daha kibar ve yakın bir görünüme kavuştu */
+        padding: 5vh 0 !important; 
     }
 }
 
@@ -249,26 +249,26 @@ body {
 
 .gallery-section {
     position: relative;
-    height: 130vh; /* Yüksekliği ideal orana çektik */
+    height: 130vh; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start; 
     overflow: hidden;
-    /* ÇÖZÜM: Otomatik gelen 15vh boşluğu ezip, üst bölüme yaklaştırıyoruz */
+   
     padding-top: 2vh !important; 
 }
 
 .gallery-section .container {
     position: relative;
     z-index: 20;
-    margin-top: 0; /* Önceden verdiğimiz ekstra boşluğu sildik */
+    margin-top: 0; 
     text-shadow: 0px 5px 30px rgba(0, 0, 0, 1), 0px 0px 15px rgba(0, 0, 0, 0.8);
 }
 
 .orbit-container {
     position: absolute;
-    top: 60%; /* Görselleri yazının hemen altında güvenli bir hizada tutar */
+    top: 60%;
     left: 50%;
     width: 0;
     height: 0;
@@ -378,7 +378,7 @@ body {
 }
 
 .product-card {
-    /* Masaüstünde 5 kart yan yana (Aralardaki 20px boşluk hesaba katılarak) */
+    
     flex: 1 1 calc(20% - 20px);
     max-width: calc(20% - 20px);
     
@@ -419,7 +419,7 @@ body {
     transition: transform 0.4s ease;
 }
 
-/* Fareyle üzerine gelince resim hafifçe büyüsün */
+
 .product-card:hover .card-img-wrapper img {
     transform: scale(1.1);
 }
@@ -498,10 +498,10 @@ body {
     transform: translateY(0) scale(1);
 }
 
-/* YENİ: Kartlar Arası Geçiş Oklarının Tasarımı */
+
 .modal-nav-btn {
     position: absolute;
-    top: 150px; /* Görselin ortasına hizalar */
+    top: 150px; 
     transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.5);
     color: #fff;
@@ -530,7 +530,7 @@ body {
 
 @media (max-width: 768px) {
     .modal-nav-btn {
-        top: 100px; /* Mobilde görsel daha kısa olduğu için butonları yukarı çektik */
+        top: 100px; 
         width: 35px; height: 35px; font-size: 1rem;
     }
     .modal-prev { left: 10px; }
@@ -576,8 +576,8 @@ body {
     position: absolute;
     top: 20px;
     left: 20px;
-    background: #e8e8e8; /* Yumuşak Beyaz */
-    color: #050505; /* Yazı rengi siyah oldu ki okunsun */
+    background: #e8e8e8; 
+    color: #050505; 
     padding: 6px 15px;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -641,7 +641,7 @@ body {
 }
 
 .modal-action-btn:hover {
-    background: #ffffff; /* Üzerine gelince tam beyaz parlar */
+    background: #ffffff; 
     transform: scale(1.05);
 }
 
@@ -843,7 +843,7 @@ body {
     z-index: 9900;
 }
 
-/* Bölümler Arası Geçiş Okları */
+
 .section-nav {
     display: flex;
     flex-direction: column;
@@ -854,7 +854,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 8px;
     border-radius: 30px;
-    margin-right: 5px; /* Okları WhatsApp ikonuyla ortalamak için */
+    margin-right: 5px; /
 }
 
 .nav-btn {
@@ -911,7 +911,7 @@ body {
     transition: color 0.3s;
 }
 
-/* Ara Ara Zıplama Animasyonu (Sadece ikon zıplar, yazı sabit kalır) */
+
 @keyframes bounce-subtle {
     0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
     40% { transform: translateY(-15px); }
@@ -919,10 +919,10 @@ body {
 }
 
 .bouncing .whatsapp-icon {
-    animation: bounce-subtle 4s infinite; /* 4 saniyede bir zıplar */
+    animation: bounce-subtle 4s infinite; 
 }
 
-/* Fareyle üzerine gelince zıplamayı durdur ve dön */
+
 .whatsapp-float:hover .whatsapp-icon {
     transform: scale(1.15) rotate(-5deg);
     animation: none; 
@@ -1093,7 +1093,7 @@ body {
    KUSURSUZ RESPONSIVE DESIGN (MOBİL UYUMLULUK)
    ========================================= */
 
-/* Dokunmatik Ekran (Mobil/Tablet) Genel Ayarları */
+
 @media (pointer: coarse) {
     .cursor, .cursor-follower { display: none !important; }
     * { cursor: auto !important; }
@@ -1107,20 +1107,19 @@ body {
     .lightbox-close { top: 20px; right: 20px; font-size: 3rem; }
 }
 
-/* 1100px - Tablet ve Küçük Laptoplar */
+
 @media (max-width: 1100px) {
     .dual-grid { grid-template-columns: 1fr; gap: 60px; }
     .text-block.offset { margin-top: 0; }
     .orbit-container { transform: scale(0.5); }
     
-    /* Kartları üstte 3, altta 2 yap */
+  
     .product-card {
         flex: 1 1 calc(33.333% - 20px);
         max-width: calc(33.333% - 20px);
     }
 }
 
-/* 768px - Genel Mobil ve iPad Dikey */
 @media (max-width: 768px) {
     .hero-logo {
         max-width: 80vw;
@@ -1128,17 +1127,17 @@ body {
     }
     .section-padding { padding: 8vh 0; }
     
-    /* WhatsApp Butonu Ufaklığı */
+  
     .whatsapp-float { top: 15px; right: 15px; gap: 4px; }
     .whatsapp-icon { width: 45px; height: 45px; }
     .whatsapp-icon svg { width: 25px; height: 25px; }
     .whatsapp-text { font-size: 0.7rem; }
     
-    /* Form & Harita Kartları Ekrana Tam Otursun */
+ 
     .qc-grid, .form-row { grid-template-columns: 1fr; gap: 20px; }
     .qc-form-card, .qc-info-card { padding: 25px 15px; }
     
-    /* Ürünler Modalı (Popup) Mobil İçin Daraltıldı */
+   
     .product-modal-content { max-height: 85vh; }
     .modal-image-container { height: 200px; }
     .modal-text-container { padding: 20px; }
@@ -1147,7 +1146,7 @@ body {
     .modal-footer { flex-direction: column; gap: 15px; text-align: center; }
     .modal-action-btn { width: 100%; text-align: center; }
     
-    /* Yörünge Galerisi: iPhone Pro Max'te Taşmayı Önleyen Boyut (0.35) */
+   
     .orbit-container { transform: scale(0.35); }
     .gallery-section { height: 60vh; }
     
@@ -1156,11 +1155,11 @@ body {
     .hero h2 { font-size: 1.2rem; }
     .text-block h4 { font-size: 2.5rem; }
     
-    /* Partnerler Kartları */
+
     .partner-card { width: 200px; height: 120px; padding: 15px; }
     .partners-track { gap: 15px; }
     
-    /* Ürün Kartları: Tüm Telefonlarda ALT ALTA Gelsin */
+ 
     .product-cards-grid { gap: 15px; }
     .product-card {
         flex: 1 1 100%;
@@ -1169,7 +1168,7 @@ body {
     }
 }
 
-/* 480px ve Altı - Dar Ekranlı Eski Nesil Telefonlar (iPhone SE, vs.) */
+
 @media (max-width: 480px) {
     /* Küçük telefonlarda taşmayı tamamen engelle */
     .orbit-container { transform: scale(0.28); }
