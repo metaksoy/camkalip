@@ -1,14 +1,13 @@
-// --- LENIS SMOOTH SCROLL ---
+// ==========================================
+// 1. LENIS SMOOTH SCROLL (YUMUŞAK KAYDIRMA)
+// ==========================================
 const lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     direction: 'vertical',
-    gestureDirection: 'vertical',
     smooth: true,
     mouseMultiplier: 1,
-    smoothTouch: false,
     touchMultiplier: 2,
-    infinite: false,
 });
 
 function raf(time) {
@@ -17,39 +16,38 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// Integrate Lenis with ScrollTrigger
+// Lenis ve ScrollTrigger Entegrasyonu
 lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add((time)=>{
-  lenis.raf(time * 1000);
+gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
 });
 gsap.ticker.lagSmoothing(0);
-
-// GSAP Eklentisini Başlat
 gsap.registerPlugin(ScrollTrigger);
 
-// --- PRELOADER ---
+// ==========================================
+// 2. PRELOADER (AÇILIŞ EKRANI)
+// ==========================================
 const preloaderCounter = document.querySelector('.preloader-counter');
 let progress = 0;
-
 const interval = setInterval(() => {
     progress += Math.floor(Math.random() * 10) + 1;
     if (progress >= 100) {
         progress = 100;
         clearInterval(interval);
-        
-
         gsap.to('.preloader', {
             yPercent: -100,
             duration: 1.5,
             ease: 'expo.inOut',
             delay: 0.2,
-            onComplete: startAllAnimations // 
+            onComplete: startAllAnimations
         });
     }
-    preloaderCounter.textContent = progress + '%';
+    if(preloaderCounter) preloaderCounter.textContent = progress + '%';
 }, 50);
 
-// --- CUSTOM CURSOR ---
+// ==========================================
+// 3. CUSTOM CURSOR (ÖZEL FARE İMLECİ)
+// ==========================================
 const cursor = document.querySelector('.cursor');
 const cursorFollower = document.querySelector('.cursor-follower');
 
@@ -59,7 +57,7 @@ document.addEventListener('mousemove', (e) => {
 });
 
 function applyHoverEffects() {
-    const links = document.querySelectorAll('a, .hover-link, .sector-item, .orbit-img, .lightbox-close, .partner-card');
+    const links = document.querySelectorAll('a, button, .hover-link, .sector-item, .orbit-img, .lightbox-close, .partner-card, .product-card');
     links.forEach(link => {
         link.addEventListener('mouseenter', () => document.body.classList.add('hover-active'));
         link.addEventListener('mouseleave', () => document.body.classList.remove('hover-active'));
@@ -67,45 +65,34 @@ function applyHoverEffects() {
 }
 applyHoverEffects();
 
-// --- TÜM ANİMASYONLARI BAŞLATAN ANA FONKSİYON ---
+// ==========================================
+// 4. GSAP ANİMASYON BAŞLATICISI
+// ==========================================
 function startAllAnimations() {
     initHeroAndScrollReveals();
-    initProductsMarquee();
     initGalleryOrbit();
     initPartnersSlider();
-    
-    // Tüm pinler eklendikten sonra hesaplamaları tazele (çakışmayı önler)
-    setTimeout(() => {
-        ScrollTrigger.refresh();
-    }, 500);
+    setTimeout(() => { ScrollTrigger.refresh(); }, 500); // Tüm animasyonlar yüklendikten sonra hesaplamaları tazele
 }
 
-// 1. Hero ve Standart Scroll Animasyonları
+// Hero ve Standart Sayfa Animasyonları
 function initHeroAndScrollReveals() {
-    gsap.fromTo('.hero .reveal-text', 
+    gsap.fromTo('.hero .reveal-text',
         { y: 100, opacity: 0 },
         { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: 'power4.out' }
     );
 
-    const revealElements = document.querySelectorAll('.reveal-text:not(.hero .reveal-text)');
-    revealElements.forEach((el) => {
-        gsap.fromTo(el, 
+    document.querySelectorAll('.reveal-text:not(.hero .reveal-text)').forEach((el) => {
+        gsap.fromTo(el,
             { y: 50, opacity: 0 },
-            {
-                y: 0, opacity: 1, duration: 1, ease: 'power3.out',
-                scrollTrigger: { trigger: el, start: 'top 85%' }
-            }
+            { y: 0, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%' } }
         );
     });
 
-    const fadeElements = document.querySelectorAll('.reveal-fade');
-    fadeElements.forEach((el) => {
-        gsap.fromTo(el, 
+    document.querySelectorAll('.reveal-fade').forEach((el) => {
+        gsap.fromTo(el,
             { y: 30, opacity: 0 },
-            {
-                y: 0, opacity: 1, duration: 1, ease: 'power2.out',
-                scrollTrigger: { trigger: el, start: 'top 90%' }
-            }
+            { y: 0, opacity: 1, duration: 1, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 90%' } }
         );
     });
 
@@ -113,61 +100,27 @@ function initHeroAndScrollReveals() {
         y: -50, ease: 'none',
         scrollTrigger: { trigger: '.design-quality', start: 'top bottom', end: 'bottom top', scrub: true }
     });
-
     gsap.to('.text-block[data-speed="1.1"]', {
         y: 50, ease: 'none',
         scrollTrigger: { trigger: '.design-quality', start: 'top bottom', end: 'bottom top', scrub: true }
     });
 }
 
-// 2. Ürünler Yatay Kaydırma (Marquee) -
-function initProductsMarquee() {
-    const productsSection = document.querySelector('.products');
-    const marqueeContent = document.querySelector('.marquee');
-
-    if (productsSection && marqueeContent) {
-        gsap.set(marqueeContent, { clearProps: "all" });
-
-
-        let getScrollAmount = () => -(marqueeContent.scrollWidth - window.innerWidth);
-
-        gsap.fromTo(marqueeContent, 
-            { 
-
-                x: "15vw" 
-            }, 
-            {
-                x: getScrollAmount, 
-                ease: "none",
-                scrollTrigger: {
-                    trigger: productsSection,
-                    start: "center center", 
-                    end: () => `+=${marqueeContent.scrollWidth}`, 
-                    pin: true, 
-                    scrub: 1, 
-                    invalidateOnRefresh: true
-                }
-            }
-        );
-    }
-}
-
-// 3. Yörünge Galerisi
+// 3D Dönen Yörünge Galerisi
 function initGalleryOrbit() {
     const orbitContainer = document.querySelector('.orbit-container');
-    if (!orbitContainer) return;
+    if (!orbitContainer || orbitContainer.children.length > 0) return;
 
-
-    if (orbitContainer.children.length > 0) return;
-
-    const totalImages = 59; 
+    const totalImages = 59;
     const galleryImages = [];
-
     for(let i = 1; i <= totalImages; i++) {
         galleryImages.push({
+            // thumb: `images/thumbs/görsel-${i}.webp`, 
+            // full: `images/gorsel-${i}.webp`
             thumb: `images/thumbs/görsel (${i}).webp`, 
             full: `images/gorsel (${i}).webp`          
-        }); 
+        
+        });
     }
 
     const ringsConfig = [
@@ -177,7 +130,6 @@ function initGalleryOrbit() {
     ];
 
     let imgIndex = 0;
-
     ringsConfig.forEach((ring) => {
         const ringEl = document.createElement('div');
         ringEl.classList.add('orbit-ring');
@@ -185,36 +137,30 @@ function initGalleryOrbit() {
 
         for (let i = 0; i < ring.count; i++) {
             if (imgIndex >= galleryImages.length) break;
-
             const angle = (i / ring.count) * Math.PI * 2;
             const x = Math.cos(angle) * ring.radius;
             const y = Math.sin(angle) * ring.radius;
 
             const img = document.createElement('img');
-            img.loading = "lazy"; 
-            img.decoding = "async"; 
+            img.loading = "lazy";
             img.src = galleryImages[imgIndex].thumb;
             img.classList.add('orbit-img');
             img.style.left = `${x}px`;
             img.style.top = `${y}px`;
 
-            const fullImageSrc = galleryImages[imgIndex].full;
-            img.addEventListener('click', () => openLightbox(fullImageSrc));
-            
+            const fullSrc = galleryImages[imgIndex].full;
+            img.addEventListener('click', () => openLightbox(fullSrc));
             ringEl.appendChild(img);
             imgIndex++;
         }
 
-        const ringAnimation = gsap.to(ringEl, {
+        const ringAnim = gsap.to(ringEl, {
             rotation: 360 * ring.direction, duration: ring.speed, repeat: -1, ease: "none"
         });
 
-        const imagesInRing = ringEl.querySelectorAll('.orbit-img');
-        imagesInRing.forEach(img => {
-            img.addEventListener('mouseenter', () => ringAnimation.pause()); 
-            img.addEventListener('mouseleave', () => ringAnimation.play());  
-            img.addEventListener('touchstart', () => ringAnimation.pause(), {passive: true});
-            img.addEventListener('touchend', () => { setTimeout(() => ringAnimation.play(), 500); }, {passive: true});
+        ringEl.querySelectorAll('.orbit-img').forEach(img => {
+            img.addEventListener('mouseenter', () => ringAnim.pause());
+            img.addEventListener('mouseleave', () => ringAnim.play());
         });
     });
 
@@ -222,37 +168,30 @@ function initGalleryOrbit() {
         opacity: 0, scale: 0.5, duration: 2, stagger: 0.3, ease: 'power3.out',
         scrollTrigger: { trigger: '.gallery-section', start: 'top 60%' }
     });
-
     applyHoverEffects();
 }
 
-
-// 4. Partnerler Yatay Slider - DÜZELTİLDİ (Yön: Soldan Sağa)
+// İŞ ORTAKLARIMIZ - SOLDAN SAĞA SCROLL (DÜZELTİLDİ)
 function initPartnersSlider() {
     const partnersSection = document.querySelector('.partners');
     const partnersTrack = document.querySelector('.partners-track');
 
     if (partnersSection && partnersTrack) {
-
-        let getPartnersScrollAmount = () => -(partnersTrack.scrollWidth - window.innerWidth + (window.innerWidth * 0.1));
-
-
-        gsap.set('.partner-card', { opacity: 1, y: 0 });
-
-
-        gsap.fromTo(partnersTrack, 
+        gsap.fromTo(partnersTrack,
             {
-                x: getPartnersScrollAmount 
+                // En soldan (eksi değerden) başlamasını sağlıyoruz
+                x: () => -(partnersTrack.scrollWidth - window.innerWidth + 100) 
             },
             {
-                x: 0, 
+                // En sağa (sıfır noktasına) doğru ilerler
+                x: 0,
                 ease: "none",
                 scrollTrigger: {
                     trigger: partnersSection,
-                    start: "center center", 
-                    end: () => `+=${partnersTrack.scrollWidth}`, 
-                    pin: true, 
-                    scrub: 1.5, 
+                    start: "center center",
+                    end: () => `+=${partnersTrack.scrollWidth}`,
+                    pin: true,
+                    scrub: 1,
                     invalidateOnRefresh: true
                 }
             }
@@ -260,20 +199,22 @@ function initPartnersSlider() {
     }
 }
 
-// --- LIGHTBOX ---
+// ==========================================
+// 5. LIGHTBOX (GALERİ FOTOĞRAFI BÜYÜTME)
+// ==========================================
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.querySelector('.lightbox-img');
 const lightboxClose = document.querySelector('.lightbox-close');
 
 function openLightbox(src) {
-    lightboxImg.src = src;
-    lightbox.classList.add('active');
+    if(lightboxImg) lightboxImg.src = src;
+    if(lightbox) lightbox.classList.add('active');
     lenis.stop();
 }
 
 function closeLightbox() {
-    lightbox.classList.remove('active');
-    setTimeout(() => { lightboxImg.src = ""; }, 400);
+    if(lightbox) lightbox.classList.remove('active');
+    setTimeout(() => { if(lightboxImg) lightboxImg.src = ""; }, 400);
     lenis.start();
 }
 
@@ -283,3 +224,179 @@ if(lightboxClose) {
         if (e.target === lightbox) closeLightbox();
     });
 }
+
+// ==========================================
+// 6. ÜRÜN KARTLARI DETAY MODALI (EKSİK OLAN KISIM EKLENDİ)
+// ==========================================
+const productSEOData = {
+    pres: {
+        title: "Pres Kalıplar ile Kusursuz Züccaciye Üretimi",
+        badge: "Züccaciye & Mutfak",
+        img: "images/gorsel (33).webp",
+        content: "<p><strong>Özbay Cam Kalıp Sanayi</strong> olarak, züccaciye ürünleri ve kalın cidarlı cam eşyalar için mikron hassasiyetinde <strong>pres kalıplar</strong> üretiyoruz.</p><p>Gelişmiş CNC merkezlerimizde ürettiğimiz kalıplar, cam eriyiğinin kusursuz dağılmasını sağlar. Isı değişimlerine karşı maksimum dayanıklılık gösteren çelikler kullanıyoruz.</p>"
+    },
+    savurma: {
+        title: "Savurma Kalıplarında Yüksek Denge",
+        badge: "Aydınlatma & Dekor",
+        img: "images/gorsel (27).webp",
+        content: "<p>Dairesel ve simetrik cam parçaların üretiminde kullanılan <strong>savurma kalıp</strong> teknolojisi mükemmel denge gerektirir. Aydınlatma armatürleri için idealdir.</p><p>Kalıplarımız 3D simülasyonlarla test edilir. Yüksek devirlerde bile titreşim yapmayan, güvenli çözümler sunuyoruz.</p>"
+    },
+    ufleme: {
+        title: "Üfleme Kalıplar: Kozmetikte Zarif Dokunuşlar",
+        badge: "Kozmetik & Parfüm",
+        img: "images/gorsel (17).webp",
+        content: "<p>Kozmetik sektörünün en önemli unsuru ambalajdır. Parfüm ve kozmetik markalarına özel <strong>üfleme cam kalıpları</strong> üreten Özbay, zarafeti endüstriyle buluşturuyor.</p><p>Kalıp ayırma çizgileri minimuma indirilmiş, rafta parlayan pürüzsüz cam şişeler elde etmenizi sağlıyoruz.</p>"
+    },
+    siller: {
+        title: "Şiller Kalıplarla Seri Üretimde Hız",
+        badge: "Seri Üretim",
+        img: "images/gorsel (9).webp",
+        content: "<p>Üretim döngüsünü hızlandırmak ve camın doğru sürede soğumasını sağlamak amacıyla <strong>Şiller Kalıpları</strong> tasarlıyoruz.</p><p>Yüksek aşınma direncine sahip malzemelerle, aralıksız seri üretimde kalite kaybı yaşamadan standart formları yakalayabilirsiniz.</p>"
+    },
+    sivama: {
+        title: "Sıvama Kalıpları: Özel Şekillendirme",
+        badge: "Gıda & Aydınlatma",
+        img: "images/gorsel (60).webp",
+        content: "<p>El yapımı hissiyatı veren dairesel cam eşyaların üretiminde kullanılan <strong>sıvama kalıpları</strong>, geleneksel sanatı teknolojiyle birleştirir.</p><p>Kalıp içi yüzey işleme (polisaj) kalitemiz sayesinde, şeffaflıkta son ürünler elde edilir.</p>"
+    }
+};
+
+const productModalOverlay = document.getElementById('productModalOverlay');
+const modalImg = document.getElementById('modalImg');
+const modalBadge = document.getElementById('modalBadge');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+
+const productOrder = ['pres', 'savurma', 'ufleme', 'siller', 'sivama'];
+let currentProductIndex = 0;
+
+// Açılır Kart Modalı
+function openProductModal(productId) {
+    const data = productSEOData[productId];
+    if(!data || !productModalOverlay) return;
+    
+    // Tıklanan ürünün sırasını bul (İleri-Geri yapabilmek için)
+    currentProductIndex = productOrder.indexOf(productId);
+    
+    if(modalImg) modalImg.src = data.img;
+    if(modalBadge) modalBadge.textContent = data.badge;
+    if(modalTitle) modalTitle.textContent = data.title;
+    if(modalBody) modalBody.innerHTML = data.content;
+    
+    productModalOverlay.classList.add('active');
+    lenis.stop(); // Arkadaki kaymayı durdur
+}
+
+// Kartlar Arasında Gezinme (İleri / Geri)
+function navigateProduct(direction, event) {
+    if (event) event.stopPropagation(); // Butona basınca arkaplan kapanmasını engelle
+    
+    currentProductIndex += direction;
+    
+    // Başa veya sona gelirse döngüyü tekrarla
+    if (currentProductIndex < 0) currentProductIndex = productOrder.length - 1;
+    if (currentProductIndex >= productOrder.length) currentProductIndex = 0;
+    
+    const nextProductId = productOrder[currentProductIndex];
+    const data = productSEOData[nextProductId];
+    
+    // Yumuşak geçiş efekti ile içeriği değiştir
+    const content = document.getElementById('productModalContent');
+    gsap.to(content, { opacity: 0, scale: 0.98, duration: 0.2, onComplete: () => {
+        if(modalImg) modalImg.src = data.img;
+        if(modalBadge) modalBadge.textContent = data.badge;
+        if(modalTitle) modalTitle.textContent = data.title;
+        if(modalBody) modalBody.innerHTML = data.content;
+        
+        gsap.to(content, { opacity: 1, scale: 1, duration: 0.2 });
+    }});
+}
+
+// Modalı Kapatma
+function closeProductModal(event, forceClose = false) {
+    if (!productModalOverlay) return;
+    if (forceClose || event.target === productModalOverlay) {
+        productModalOverlay.classList.remove('active');
+        lenis.start(); // Arkadaki kaymayı başlat
+    }
+}
+
+// KLAVYE DESTEĞİ (ESC ile kapatma, Oklarla Gezinme)
+document.addEventListener('keydown', (e) => {
+    if (productModalOverlay && productModalOverlay.classList.contains('active')) {
+        if (e.key === 'Escape') closeProductModal(e, true);
+        if (e.key === 'ArrowRight') navigateProduct(1);
+        if (e.key === 'ArrowLeft') navigateProduct(-1);
+    }
+});
+
+// ==========================================
+// 7. WHATSAPP İLETİŞİM FORMU
+// ==========================================
+const waForm = document.getElementById('whatsapp-form');
+if(waForm) {
+    waForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('wa-name') ? document.getElementById('wa-name').value : '';
+        const phone = document.getElementById('wa-phone') ? document.getElementById('wa-phone').value : '';
+        const message = document.getElementById('wa-message') ? document.getElementById('wa-message').value : '';
+        
+        let waText = `Merhaba.\n\n`;
+        waText += `*Ben Ad / Firma:* ${name}\n`;
+        waText += `*Telefon:* ${phone}\n`;
+        if(message) waText += `*Not:* ${message}`;
+        
+        const encodedText = encodeURIComponent(waText);
+        window.open(`https://wa.me/905324637933?text=${encodedText}`, '_blank');
+    });
+}
+
+
+// ==========================================
+// 8. BÖLÜMLER ARASI HIZLI GEÇİŞ (OKLAR)
+// ==========================================
+const navUp = document.getElementById('nav-up');
+const navDown = document.getElementById('nav-down');
+
+// Sitedeki tüm ana bölümleri (section) topla
+const sections = Array.from(document.querySelectorAll('section'));
+
+function scrollToNextSection(direction) {
+    if(sections.length === 0) return;
+    
+    let targetSection = null;
+    
+    if(direction === 1) {
+        // AŞAĞI İN: Ekranda görünen kısımdan aşağıda olan İLK section'ı bul
+        targetSection = sections.find(sec => {
+            const rect = sec.getBoundingClientRect();
+            return rect.top > 50; // 50px tolerans payı
+        });
+    } else {
+        // YUKARI ÇIK: Aramayı sondan başa doğru yap, yukarıda kalan SON section'ı bul
+        for(let i = sections.length - 1; i >= 0; i--) {
+            const rect = sections[i].getBoundingClientRect();
+            if(rect.top < -50) {
+                targetSection = sections[i];
+                break;
+            }
+        }
+        
+        // Eğer hiçbir şey bulamadıysa (en üstteyse) ana ekrana (Hero) dön
+        if(!targetSection && window.scrollY > 100) {
+            targetSection = document.querySelector('.hero');
+        }
+    }
+    
+    // Hedef bölüm bulunduysa, Lenis ile yumuşakça oraya kaydır
+    if(targetSection) {
+        lenis.scrollTo(targetSection, {
+            offset: 0,
+            duration: 1.2
+        });
+    }
+}
+
+if(navUp) navUp.addEventListener('click', () => scrollToNextSection(-1));
+if(navDown) navDown.addEventListener('click', () => scrollToNextSection(1));

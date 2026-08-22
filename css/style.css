@@ -1,5 +1,7 @@
-/* CSS Reset & Variables */
-:root {
+/* =========================================
+   CSS Reset & Variables
+   ========================================= */
+   :root {
     --bg-color: #050505;
     --text-color: #f0f0f0;
     --accent: #d4af37;
@@ -22,30 +24,9 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Products Marquee */
-.products {
-    padding: 10vh 0;
-    background: var(--text-color);
-    color: var(--bg-color);
-    overflow: hidden; 
-}
-
-.marquee-container {
-    width: 100vw;
-    overflow: hidden;
-    transform: rotate(-2deg) scale(1.1);
-}
-
-.marquee {
-    display: flex;
-    width: max-content; 
-    font-family: var(--font-serif);
-    font-size: clamp(3rem, 5vw, 5rem); 
-    font-weight: 600;
-    white-space: nowrap;
-}
-
-/* Custom Cursor */
+/* =========================================
+   Custom Cursor
+   ========================================= */
 .cursor {
     width: 8px;
     height: 8px;
@@ -55,7 +36,7 @@ body {
     top: 0;
     left: 0;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 999999;
     transform: translate(-50%, -50%);
     transition: width 0.3s, height 0.3s;
 }
@@ -69,7 +50,7 @@ body {
     top: 0;
     left: 0;
     pointer-events: none;
-    z-index: 9998;
+    z-index: 999999;
     transform: translate(-50%, -50%);
     transition: 0.1s ease-out;
 }
@@ -80,12 +61,14 @@ body {
     background: rgba(212, 175, 55, 0.2);
     border: 1px solid var(--accent);
 }
+
 .hover-active .cursor-follower {
     opacity: 0;
 }
 
-
-/* Preloader */
+/* =========================================
+   Preloader
+   ========================================= */
 .preloader {
     position: fixed;
     top: 0;
@@ -112,7 +95,6 @@ body {
     max-width: 60vw; 
     height: auto;
     margin-top: 20px;
-
     filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15));
 }
 
@@ -123,7 +105,9 @@ body {
     text-transform: uppercase;
 }
 
-/* WebGL Background */
+/* =========================================
+   WebGL Background
+   ========================================= */
 #webgl-canvas {
     position: fixed;
     top: 0;
@@ -133,7 +117,9 @@ body {
     z-index: -1;
 }
 
-/* Typography & Layout */
+/* =========================================
+   Typography & Layout
+   ========================================= */
 .container {
     max-width: 1400px;
     margin: 0 auto;
@@ -149,13 +135,33 @@ body {
 }
 
 .subtitle {
-    font-size: 0.85rem;
+    font-size: 0.99rem;
     letter-spacing: 3px;
     color: var(--accent);
     margin-bottom: 30px;
 }
 
-/* Hero */
+/* Utilities for GSAP */
+.reveal-text {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* --- SEO & ACCESSIBILITY --- */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* =========================================
+   Hero Section
+   ========================================= */
 .hero {
     height: 100vh;
     display: flex;
@@ -166,11 +172,29 @@ body {
 
 .hero h1 {
     font-family: var(--font-serif);
-    font-size: 12vw;
+    font-size: 16vw; /* 12vw'den 16vw'ye çıkarılarak devasa ve şık bir hale getirildi */
     font-weight: 400;
-    line-height: 1;
+    line-height: 0.9; /* Yazının altındaki boşluk daraltıldı */
     margin-bottom: 20px;
-    mix-blend-mode: difference;
+    mix-blend-mode: difference; /* Arka plandaki parçacıkların yazının içinden geçmesini sağlar */
+}
+
+/* Mobilde Daha da Vurgulu Olması İçin (CSS'in en altındaki 768px içerisine de eklenebilir) */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 22vw; /* Telefon ekranlarında markayı tam genişliğe oturtur */
+    }
+}
+
+.hero-logo {
+    width: 100%;
+    max-width: 50vw; 
+    min-width: 280px; 
+    height: auto;
+    display: block;
+    position: relative;
+    z-index: 10;
+    filter: brightness(1.2) contrast(1.1) drop-shadow(0px 0px 25px rgba(212, 175, 55, 0.3)); 
 }
 
 .hero h2 {
@@ -196,7 +220,20 @@ body {
     background: var(--text-color);
 }
 
-/* About */
+/* =========================================
+   About Section
+   ========================================= */
+
+   .about.section-padding {
+    padding: 8vh 0 !important; /* Masaüstünde 15vh'den 8vh'ye düşürerek daralttık */
+}
+
+@media (max-width: 768px) {
+    .about.section-padding {
+        padding: 5vh 0 !important; /* Mobilde çok daha kibar ve yakın bir görünüme kavuştu */
+    }
+}
+
 .about h3, .gallery-section h3 {
     font-family: var(--font-serif);
     font-size: clamp(2rem, 4vw, 4rem);
@@ -206,24 +243,32 @@ body {
     margin: 0 auto;
 }
 
-/* --- ORBIT GALLERY --- */
+/* =========================================
+   Orbit Gallery Section
+   ========================================= */
+
 .gallery-section {
     position: relative;
-    height: 120vh;
+    height: 130vh; /* Yüksekliği ideal orana çektik */
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start; 
     overflow: hidden;
+    /* ÇÖZÜM: Otomatik gelen 15vh boşluğu ezip, üst bölüme yaklaştırıyoruz */
+    padding-top: 2vh !important; 
 }
 
 .gallery-section .container {
     position: relative;
     z-index: 20;
+    margin-top: 0; /* Önceden verdiğimiz ekstra boşluğu sildik */
+    text-shadow: 0px 5px 30px rgba(0, 0, 0, 1), 0px 0px 15px rgba(0, 0, 0, 0.8);
 }
 
 .orbit-container {
     position: absolute;
-    top: 55%;
+    top: 60%; /* Görselleri yazının hemen altında güvenli bir hizada tutar */
     left: 50%;
     width: 0;
     height: 0;
@@ -309,7 +354,300 @@ body {
     transform: rotate(90deg);
 }
 
-/* Design & Quality */
+/* =========================================
+   ÜRÜNLER - YENİ RESİMLİ KART TASARIMI
+   ========================================= */
+   .products {
+    background: transparent;
+    overflow: hidden; 
+    padding-top: 3 !important; 
+    padding-bottom: 5vh !important; 
+}
+
+.products-header h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.product-cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.product-card {
+    /* Masaüstünde 5 kart yan yana (Aralardaki 20px boşluk hesaba katılarak) */
+    flex: 1 1 calc(20% - 20px);
+    max-width: calc(20% - 20px);
+    
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--accent);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+/* Karta Eklenen Görsellerin Düzeni */
+.card-img-wrapper {
+    width: 100%;
+    height: 130px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+/* Fareyle üzerine gelince resim hafifçe büyüsün */
+.product-card:hover .card-img-wrapper img {
+    transform: scale(1.1);
+}
+
+.product-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.product-card p {
+    color: #aaa;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.read-more {
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: letter-spacing 0.3s ease;
+}
+
+.product-card:hover .read-more {
+    letter-spacing: 2px;
+}
+
+
+
+/* =========================================
+   ÜRÜNLER - AÇILIR MODAL PENCERE
+   ========================================= */
+.product-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 100000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    padding: 20px;
+}
+
+.product-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.product-modal-content {
+    background: #0a0a0a; 
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 850px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(50px) scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+}
+
+.product-modal-overlay.active .product-modal-content {
+    transform: translateY(0) scale(1);
+}
+
+/* YENİ: Kartlar Arası Geçiş Oklarının Tasarımı */
+.modal-nav-btn {
+    position: absolute;
+    top: 150px; /* Görselin ortasına hizalar */
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.modal-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+    border-color: #fff;
+}
+
+.modal-prev { left: 15px; }
+.modal-next { right: 15px; }
+
+@media (max-width: 768px) {
+    .modal-nav-btn {
+        top: 100px; /* Mobilde görsel daha kısa olduğu için butonları yukarı çektik */
+        width: 35px; height: 35px; font-size: 1rem;
+    }
+    .modal-prev { left: 10px; }
+    .modal-next { right: 10px; }
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    transition: background 0.3s, color 0.3s;
+}
+
+.modal-close-btn:hover {
+    background: #fff;
+    color: #000;
+}
+
+.modal-image-container {
+    position: relative;
+    width: 100%;
+    height: 350px;
+}
+
+.modal-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+}
+
+.modal-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #e8e8e8; /* Yumuşak Beyaz */
+    color: #050505; /* Yazı rengi siyah oldu ki okunsun */
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.modal-text-container {
+    padding: 40px;
+}
+
+.modal-meta {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.modal-text-container h3 {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 25px;
+    line-height: 1.3;
+}
+
+.modal-body-text p {
+    color: #ccc;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.modal-body-text strong {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.modal-footer .brand-name {
+    font-family: var(--font-serif);
+    color: #fff;
+    font-style: italic;
+}
+
+.modal-action-btn {
+    background: #e8e8e8; /* Yumuşak Beyaz */
+    color: #050505; /* Koyu Yazı */
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.modal-action-btn:hover {
+    background: #ffffff; /* Üzerine gelince tam beyaz parlar */
+    transform: scale(1.05);
+}
+
+/* =========================================
+   Design & Quality
+   ========================================= */
 .dual-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -334,11 +672,9 @@ body {
     margin-top: 150px;
 }
 
-
-
-
-
-/* Sectors */
+/* =========================================
+   Sectors
+   ========================================= */
 .sector-list {
     border-top: 1px solid rgba(255,255,255,0.1);
 }
@@ -374,88 +710,9 @@ body {
     color: #fff;
 }
 
-/* Contact */
-.contact {
-    background: #0a0a0a;
-}
-
-.huge-text {
-    font-family: var(--font-serif);
-    font-size: clamp(4rem, 10vw, 12rem);
-    line-height: 0.9;
-    margin-bottom: 100px;
-}
-
-.contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    margin-bottom: 100px;
-}
-
-.contact-info h5 {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    color: var(--accent);
-}
-
-.contact-info p, .contact-info a {
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: rgba(255,255,255,0.8);
-    text-decoration: none;
-}
-
-.hover-link {
-    position: relative;
-    display: inline-block;
-}
-
-.hover-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 1px;
-    bottom: -2px;
-    left: 0;
-    background-color: var(--accent);
-    transition: width 0.3s ease;
-}
-
-.hover-link:hover::after {
-    width: 100%;
-}
-
-.footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 30px;
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.4);
-}
-
-/* Utilities for GSAP */
-.reveal-text {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-
-}
-
-
-
-
-/* --- SEO & ACCESSIBILITY --- */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
-
-/* --- PARTNERS SLIDER SECTION --- */
+/* =========================================
+   PARTNERS SLIDER SECTION
+   ========================================= */
 .partners {
     background: #080808;
     position: relative;
@@ -480,7 +737,6 @@ body {
     display: flex;
     gap: 40px;
     padding-left: 5vw;
-
     width: max-content; 
 }
 
@@ -490,12 +746,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
     background: rgba(245, 245, 245, 0.95);
     border-radius: 16px;
     padding: 30px;
     transition: all 0.4s ease;
-    /* Siyah arka plandan ayrışması için hafif bir gölge */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
 }
 
@@ -507,7 +761,6 @@ body {
     transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* Hover Efekti */
 .partner-card:hover {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(212, 175, 55, 0.3); 
@@ -515,7 +768,7 @@ body {
 }
 
 .partner-card:hover img {
-    opacity: 1; /* Tamamen belirginleşir */
+    opacity: 1; 
     transform: scale(1.1);
 }
 
@@ -524,159 +777,402 @@ body {
 }
 
 /* =========================================
-   WHATSAPP FLOATING BUTTON
+   WHATSAPP FLOATING BUTTON (METİNLİ)
    ========================================= */
-   .whatsapp-float {
+.whatsapp-float {
     position: fixed;
-    top: 30px;    /* Sağ üstten boşluk */
-    right: 30px;  /* Sağ kenardan boşluk */
+    top: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    z-index: 9900;
+    text-decoration: none;
+}
+
+.whatsapp-icon {
     width: 60px;
     height: 60px;
-    background-color: #25d366; /* Orijinal WhatsApp Yeşili */
+    background-color: #25d366;
     border-radius: 50%;
-    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); /* Orijinal renkte parlama */
-    z-index: 9900; /* Butonun diğer sayfa elementlerinin üstünde durmasını sağlar */
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-decoration: none;
 }
 
-.whatsapp-float svg {
+.whatsapp-icon svg {
     width: 35px;
     height: 35px;
     fill: #FFF;
 }
 
-/* Masaüstü cihazlarda üzerine gelince büyüme ve hafif dönme efekti */
-.whatsapp-float:hover {
+.whatsapp-text {
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8); 
+    transition: color 0.3s ease;
+}
+
+.whatsapp-float:hover .whatsapp-icon {
     transform: scale(1.15) rotate(-5deg);
     box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
     background-color: #20b858;
 }
 
-/* Mobil Ekranlar İçin Düzenlemeler (Daha kibar boyutlandırma) */
-@media (max-width: 768px) {
-    .whatsapp-float {
-        width: 50px;
-        height: 50px;
-        top: 20px;
-        right: 20px;
-    }
-    .whatsapp-float svg {
-        width: 30px;
-        height: 30px;
-    }
-}
-
-/* Responsive Düzenlemeler */
-@media (max-width: 768px) {
-    .partner-card {
-        width: 220px;
-        height: 140px;
-        padding: 20px;
-    }
-    .partners-track {
-        gap: 20px;
-    }
+.whatsapp-float:hover .whatsapp-text {
+    color: var(--accent);
 }
 
 /* =========================================
-   RESPONSIVE DESIGN (MOBİL UYUMLULUK)
+   FLOATING CONTROLS (YÖN OKLARI & WHATSAPP)
+   ========================================= */
+   .floating-controls {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Sağa yasla */
+    gap: 15px;
+    z-index: 9900;
+}
+
+/* Bölümler Arası Geçiş Okları */
+.section-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    border-radius: 30px;
+    margin-right: 5px; /* Okları WhatsApp ikonuyla ortalamak için */
+}
+
+.nav-btn {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid transparent;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: rgba(212, 175, 55, 0.8); /* Altın Sarısı Hover */
+    border-color: #d4af37;
+    transform: scale(1.1);
+}
+
+/* WhatsApp Butonu */
+.whatsapp-float {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.whatsapp-icon {
+    width: 60px;
+    height: 60px;
+    background-color: #25d366;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.whatsapp-icon svg { width: 35px; height: 35px; }
+
+.whatsapp-text {
+    background: #fff;
+    color: #050505;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    white-space: nowrap;
+    transition: color 0.3s;
+}
+
+/* Ara Ara Zıplama Animasyonu (Sadece ikon zıplar, yazı sabit kalır) */
+@keyframes bounce-subtle {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-15px); }
+    60% { transform: translateY(-7px); }
+}
+
+.bouncing .whatsapp-icon {
+    animation: bounce-subtle 4s infinite; /* 4 saniyede bir zıplar */
+}
+
+/* Fareyle üzerine gelince zıplamayı durdur ve dön */
+.whatsapp-float:hover .whatsapp-icon {
+    transform: scale(1.15) rotate(-5deg);
+    animation: none; 
+    background-color: #20b858;
+}
+
+.whatsapp-float:hover .whatsapp-text {
+    color: #40a083; /* Yazı Rengi Değişimi */
+}
+
+/* =========================================
+   YENİ WHATSAPP TEKLİF & İLETİŞİM ALANI
+   ========================================= */
+.quote-contact {
+    background-color: var(--bg-color); 
+    color: var(--text-color);
+}
+
+.qc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.qc-form-card, .qc-info-card, .qc-map-card {
+    background: rgba(255, 255, 255, 0.05); 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    border-radius: 16px;
+    padding: 40px;
+}
+
+.qc-form-card h3, .qc-info-wrapper h3 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.qc-form-card p {
+    color: #999;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: flex-end; 
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #aaa;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.08); 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    transition: border 0.3s ease, background 0.3s ease;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #40a083;
+    background: rgba(255, 255, 255, 0.12); 
+}
+
+.form-group select option {
+    background-color: #111;
+    color: #fff;
+}
+
+.wa-submit-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #40a083; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.wa-submit-btn:hover {
+    background-color: #2e7a63;
+}
+
+.qc-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.qc-info-wrapper h3 {
+    margin-bottom: 0;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-item .icon {
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.1); 
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.info-item p {
+    margin: 0;
+    color: #ddd;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    align-self: center;
+}
+
+.info-item a {
+    color: #ddd;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.info-item a:hover {
+    color: var(--accent);
+}
+
+.qc-map-card {
+    padding: 0; 
+    overflow: hidden;
+    height: 250px;
+    flex-grow: 1;
+}
+
+/* =========================================
+   KUSURSUZ RESPONSIVE DESIGN (MOBİL UYUMLULUK)
    ========================================= */
 
-
+/* Dokunmatik Ekran (Mobil/Tablet) Genel Ayarları */
 @media (pointer: coarse) {
-
-    .cursor, .cursor-follower {
-        display: none !important;
-    }
-    * {
-        cursor: auto !important;
-    }
-
+    .cursor, .cursor-follower { display: none !important; }
+    * { cursor: auto !important; }
     .orbit-img:hover {
         transform: translate(-50%, -50%) scale(1);
         border-color: transparent;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
-    .sector-item:hover {
-        padding-left: 0;
-    }
-    .sector-item:hover h2 {
-        color: rgba(255,255,255,0.6);
-    }
-    .lightbox-close {
-        top: 20px;
-        right: 20px;
-        font-size: 3rem;
+    .sector-item:hover { padding-left: 0; }
+    .sector-item:hover h2 { color: rgba(255,255,255,0.6); }
+    .lightbox-close { top: 20px; right: 20px; font-size: 3rem; }
+}
+
+/* 1100px - Tablet ve Küçük Laptoplar */
+@media (max-width: 1100px) {
+    .dual-grid { grid-template-columns: 1fr; gap: 60px; }
+    .text-block.offset { margin-top: 0; }
+    .orbit-container { transform: scale(0.5); }
+    
+    /* Kartları üstte 3, altta 2 yap */
+    .product-card {
+        flex: 1 1 calc(33.333% - 20px);
+        max-width: calc(33.333% - 20px);
     }
 }
 
-
-@media (max-width: 1024px) {
-    .dual-grid {
-        grid-template-columns: 1fr;
-        gap: 60px;
-    }
-    .text-block.offset {
-        margin-top: 0;
-    }
-    .orbit-container {
-        transform: scale(0.6); 
-    }
-}
-
-/* Mobil Ekranlar (768px ve altı) */
+/* 768px - Genel Mobil ve iPad Dikey */
 @media (max-width: 768px) {
-    .section-padding {
-        padding: 10vh 0;
+    .hero-logo {
+        max-width: 80vw;
+        margin-bottom: 30px;
     }
+    .section-padding { padding: 8vh 0; }
     
-    .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        margin-bottom: 60px;
-    }
-
-    .orbit-container {
-        transform: scale(0.4); /* Yörüngeyi daha da küçült ki taşmasın */
-    }
+    /* WhatsApp Butonu Ufaklığı */
+    .whatsapp-float { top: 15px; right: 15px; gap: 4px; }
+    .whatsapp-icon { width: 45px; height: 45px; }
+    .whatsapp-icon svg { width: 25px; height: 25px; }
+    .whatsapp-text { font-size: 0.7rem; }
     
-    .gallery-section {
-        height: 70vh; 
-    }
-
-    .sector-item .num {
-        margin-right: 20px;
-    }
+    /* Form & Harita Kartları Ekrana Tam Otursun */
+    .qc-grid, .form-row { grid-template-columns: 1fr; gap: 20px; }
+    .qc-form-card, .qc-info-card { padding: 25px 15px; }
     
-    .hero h2 {
-        font-size: 1.2rem;
-    }
+    /* Ürünler Modalı (Popup) Mobil İçin Daraltıldı */
+    .product-modal-content { max-height: 85vh; }
+    .modal-image-container { height: 200px; }
+    .modal-text-container { padding: 20px; }
+    .modal-text-container h3 { font-size: 1.6rem; margin-bottom: 15px; }
+    .modal-body-text p { font-size: 0.95rem; line-height: 1.6; }
+    .modal-footer { flex-direction: column; gap: 15px; text-align: center; }
+    .modal-action-btn { width: 100%; text-align: center; }
     
-    .text-block h4 {
-        font-size: 2.5rem;
-    }
+    /* Yörünge Galerisi: iPhone Pro Max'te Taşmayı Önleyen Boyut (0.35) */
+    .orbit-container { transform: scale(0.35); }
+    .gallery-section { height: 60vh; }
     
-    .marquee {
-        font-size: 3rem;
+    .sector-item h2 { font-size: 2.5rem; }
+    .sector-item .num { margin-right: 20px; }
+    .hero h2 { font-size: 1.2rem; }
+    .text-block h4 { font-size: 2.5rem; }
+    
+    /* Partnerler Kartları */
+    .partner-card { width: 200px; height: 120px; padding: 15px; }
+    .partners-track { gap: 15px; }
+    
+    /* Ürün Kartları: Tüm Telefonlarda ALT ALTA Gelsin */
+    .product-cards-grid { gap: 15px; }
+    .product-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: 20px 15px;
     }
 }
 
-/* Dar Telefon Ekranları (480px ve altı) */
+/* 480px ve Altı - Dar Ekranlı Eski Nesil Telefonlar (iPhone SE, vs.) */
 @media (max-width: 480px) {
-    .orbit-container {
-        transform: scale(0.3);
-    }
-    .gallery-section {
-        height: 50vh;
-    }
-    .huge-text {
-        margin-bottom: 50px;
-    }
-    .hero h1 {
-        font-size: 18vw; 
-    }
+    /* Küçük telefonlarda taşmayı tamamen engelle */
+    .orbit-container { transform: scale(0.28); }
+    .gallery-section { height: 50vh; }
+    .hero h1 { font-size: 15vw; }
 }
